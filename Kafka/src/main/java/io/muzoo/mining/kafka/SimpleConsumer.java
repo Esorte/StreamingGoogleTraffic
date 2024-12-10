@@ -1,4 +1,4 @@
-package main;
+package io.muzoo.mining.kafka;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

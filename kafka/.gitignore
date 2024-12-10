@@ -1,12 +1,3 @@
-# API key
-apikey.txt
-
-# env
-.env
-
-# Artifacts
-__pycache__/
-*.py[cod]
-.vscode/
-
-consumer.py
+.DS_Store
+target/
+.idea/
