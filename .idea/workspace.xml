@@ -9,10 +9,14 @@
       <change afterPath="$PROJECT_DIR$/Kafka/src/main/java/io/muzoo/mining/kafka/Filter_Consumer.java" afterDir="false" />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/es/docker-compoes.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 =======
 >>>>>>> parent of 94d5b4c (es)
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> parent of b87ae7e (,,,)
 =======
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 >>>>>>> parent of b87ae7e (,,,)
@@ -40,10 +44,14 @@
   <component name="Git.Settings">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Kafka" />
 =======
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
 >>>>>>> parent of 94d5b4c (es)
+=======
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Kafka" />
+>>>>>>> parent of b87ae7e (,,,)
 =======
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Kafka" />
 >>>>>>> parent of b87ae7e (,,,)
@@ -73,6 +81,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
 <<<<<<< HEAD
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
@@ -109,6 +118,8 @@
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
     "vue.rearranger.settings.migration": "true"
 =======
+=======
+>>>>>>> parent of b87ae7e (,,,)
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
@@ -138,6 +149,9 @@
     &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+<<<<<<< HEAD
+>>>>>>> parent of b87ae7e (,,,)
+=======
 >>>>>>> parent of b87ae7e (,,,)
   }
 }</component>
@@ -151,7 +165,11 @@
     </key>
   </component>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <component name="RunManager" selected="Docker.docker-compose.yml: Compose Deployment">
+=======
+  <component name="RunManager" selected="Application.Filter_Consumer">
+>>>>>>> parent of b87ae7e (,,,)
 =======
   <component name="RunManager" selected="Application.Filter_Consumer">
 >>>>>>> parent of b87ae7e (,,,)
@@ -214,6 +232,7 @@
       <method v="2" />
     </configuration>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
@@ -227,6 +246,8 @@
         <settings>
           <option name="sourceFilePath" value="es/docker-compose.yml" />
 =======
+=======
+>>>>>>> parent of b87ae7e (,,,)
     <configuration name="kafka-server: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
@@ -240,10 +261,13 @@
       <list>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
 =======
         <item itemvalue="Docker.es: Compose Deployment" />
 >>>>>>> parent of 94d5b4c (es)
+=======
+>>>>>>> parent of b87ae7e (,,,)
 =======
 >>>>>>> parent of b87ae7e (,,,)
         <item itemvalue="Application.Filter_Consumer" />
@@ -254,7 +278,11 @@
 =======
         <item itemvalue="Docker.kafka-server: Compose Deployment" />
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> parent of 94d5b4c (es)
+=======
+        <item itemvalue="Application.FormattedTrafficNoJSON" />
+>>>>>>> parent of b87ae7e (,,,)
 =======
         <item itemvalue="Application.FormattedTrafficNoJSON" />
 >>>>>>> parent of b87ae7e (,,,)
