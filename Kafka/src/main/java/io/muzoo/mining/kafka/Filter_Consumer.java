@@ -5,7 +5,8 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.Properties;
 
@@ -60,20 +61,20 @@ public class Filter_Consumer {
                 logger.warn("Missing 'Destination' field in data: {}", rawData);
             }
 
-            JSONObject jsonData = new JSONObject(rawData.substring(rawData.indexOf("Data: ") + 6));
-            double distance = jsonData.getJSONArray("rows")
-                                      .getJSONObject(0)
-                                      .getJSONArray("elements")
-                                      .getJSONObject(0)
-                                      .getJSONObject("distance")
-                                      .getDouble("value") / 1000.0; // Convert meters to kilometers
+            JsonObject jsonData = JsonParser.parseString(rawData.substring(rawData.indexOf("Data: ") + 6)).getAsJsonObject();
+            double distance = jsonData.getAsJsonArray("rows")
+                                      .get(0).getAsJsonObject()
+                                      .getAsJsonArray("elements")
+                                      .get(0).getAsJsonObject()
+                                      .getAsJsonObject("distance")
+                                      .get("value").getAsDouble() / 1000.0; // Convert meters to kilometers
 
-            int duration = jsonData.getJSONArray("rows")
-                                   .getJSONObject(0)
-                                   .getJSONArray("elements")
-                                   .getJSONObject(0)
-                                   .getJSONObject("duration")
-                                   .getInt("value") / 60; // Convert seconds to minutes
+            int duration = jsonData.getAsJsonArray("rows")
+                                   .get(0).getAsJsonObject()
+                                   .getAsJsonArray("elements")
+                                   .get(0).getAsJsonObject()
+                                   .getAsJsonObject("duration")
+                                   .get("value").getAsInt() / 60; // Convert seconds to minutes
 
             String formattedData = String.format("{ \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
                     origin, destination, distance, duration);
