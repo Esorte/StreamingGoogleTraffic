@@ -97,7 +97,7 @@
       <recent name="$PROJECT_DIR$/kafka" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Filter_Consumer">
+  <component name="RunManager" selected="Docker.docker-compose.yml: Compose Deployment">
     <configuration name="Consumer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="io.muzoo.mining.kafka.Consumer" />
       <module name="kafka-log-analyzer" />
@@ -161,10 +161,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="Application.Filter_Consumer" />
         <item itemvalue="Application.Consumer" />
         <item itemvalue="Application.Producer" />
-        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="Docker.es: Compose Deployment" />
       </list>
     </recent_temporary>
