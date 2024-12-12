@@ -34,7 +34,12 @@ public class Producer {
         locationMap.put("Siam Paragon", new double[]{13.74591036679997, 100.5344231541853});
         locationMap.put("Victory Monument", new double[]{13.76522600064536, 100.53818429867663});
         locationMap.put("Suvarnabhumi Airport", new double[]{13.68394085330947, 100.74737181171255});
-        // Add more
+        locationMap.put("Icon Siam", new double[]{13.726710679691664, 100.5099469958224});
+        locationMap.put("Central Westgate", new double[]{13.877059647496482, 100.41135166698949});
+        locationMap.put("Khao San Road", new double[]{13.758935907984009, 100.4972349246074});
+        locationMap.put("Goverment House of Thailand", new double[]{13.763653486701367, 100.5113743239928});
+        locationMap.put("Amphorn Sathan Residential Hall", new double[]{13.772415034121298, 100.51133995865536});
+        locationMap.put("Tangsin Road", new double[]{13.798125312455488, 100.3118755133538});
     }
 
     public static void main(String[] args) {
