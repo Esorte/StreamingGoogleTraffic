@@ -8,7 +8,7 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
-public class SimpleConsumer {
+public class Consumer {
 
     private static final String KAFKA_BROKER = "localhost:9092";
     private static final String TOPIC = "raw_traffic";
