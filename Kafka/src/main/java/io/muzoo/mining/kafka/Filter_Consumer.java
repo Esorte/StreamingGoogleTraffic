@@ -8,8 +8,13 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.json.JSONObject;
+import java.time.LocalDateTime;
+import java.time.format.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Filter_Consumer {
     private static final Logger logger = LoggerFactory.getLogger(Filter_Consumer.class);
@@ -80,7 +85,8 @@ public class Filter_Consumer {
             String routeKey = origin + "->" + destination;
             int routeId = routeIdMap.computeIfAbsent(routeKey, k -> nextId.getAndIncrement());
 
-            String datetime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
+            String datetime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+);
 
             String formattedData = String.format("{ \"id\": \"%d\", \"datetime\": \"%s\", \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
                     routeId, datetime, origin, destination, distance, duration);
