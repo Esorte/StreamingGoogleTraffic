@@ -1,36 +1,34 @@
-import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.common.serialization.Serdes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.Properties;
-import java.util.UUID;
 
 public class Filter_Consumer {
-
     private static final Logger logger = LoggerFactory.getLogger(Filter_Consumer.class);
-    private static final String APPLICATION_ID = "traffic-formatter";
-    private static final String BOOTSTRAP_SERVERS = "localhost:29092";
-    private static final String INPUT_TOPIC = "raw_traffic";
-    private static final String OUTPUT_TOPIC = "formatted_traffic";
-
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yy");
-    private static final HashMap<String, String> routeIds = new HashMap<>();
+    private static final String INPUT_TOPIC = "input-topic";
+    private static final String OUTPUT_TOPIC = "output-topic";
+    private static final String APPLICATION_ID = "filter-consumer-app";
+    private static final String BOOTSTRAP_SERVERS = "localhost:9092";
 
     public static void main(String[] args) {
+        logger.info("Starting the Kafka Streams application...");
+
         Properties props = createStreamProperties();
         StreamsBuilder builder = new StreamsBuilder();
 
         KStream<String, String> sourceStream = builder.stream(INPUT_TOPIC);
+        logger.info("Source stream created from topic: {}", INPUT_TOPIC);
 
         KStream<String, String> formattedStream = sourceStream.mapValues(Filter_Consumer::formatData);
+        logger.info("Formatted stream created.");
+
         formattedStream.filter((key, value) -> value != null).to(OUTPUT_TOPIC);
+        logger.info("Filtered stream sent to topic: {}", OUTPUT_TOPIC);
 
         KafkaStreams streams = new KafkaStreams(builder.build(), props);
         startStream(streams);
@@ -47,7 +45,8 @@ public class Filter_Consumer {
 
     private static String formatData(String rawData) {
         try {
-            // Extract required values
+            logger.info("Formatting data: {}", rawData);
+
             String origin = extractValue(rawData, "Origin: ", ", Destination:");
             if (origin == null) {
                 origin = "Unknown";
@@ -66,8 +65,10 @@ public class Filter_Consumer {
             String durationText = extractValue(rawData, "\"duration\" : { \"text\" : \"", "\", \"value\"");
             int duration = durationText != null ? Integer.parseInt(durationText.split(" ")[0]) : 0;
 
-            return String.format("{ \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
+            String formattedData = String.format("{ \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
                     origin, destination, distance, duration);
+            logger.info("Formatted data: {}", formattedData);
+            return formattedData;
         } catch (Exception e) {
             logger.error("Error formatting data: {}", rawData, e);
             return null;
@@ -89,6 +90,7 @@ public class Filter_Consumer {
 
     private static void startStream(KafkaStreams streams) {
         streams.start();
+        logger.info("Kafka Streams started.");
         Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
     }
 }
