@@ -1,17 +1,16 @@
-package io.muzoo.mining.kafka;
-
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.StreamsConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Properties;
+import java.util.UUID;
 
 public class Filter_Consumer {
 
@@ -22,6 +21,7 @@ public class Filter_Consumer {
     private static final String OUTPUT_TOPIC = "formatted_traffic";
 
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yy");
+    private static final HashMap<String, String> routeIds = new HashMap<>();
 
     public static void main(String[] args) {
         Properties props = createStreamProperties();
@@ -45,7 +45,6 @@ public class Filter_Consumer {
         return props;
     }
 
-
     private static String formatData(String rawData) {
         try {
             // Extract key-value pairs manually
@@ -64,54 +63,38 @@ public class Filter_Consumer {
             String distance = extractValue(rawData, "\"distance\" : { \"text\" : \"", "\", \"value\"");
             if (distance == null) {
                 distance = "N/A";
-                logger.warn("Missing 'Distance' field in data: {}", rawData);
+                logger.warn("Missing 'distance' field in data: {}", rawData);
             }
 
-            String durationText = extractValue(rawData, "\"duration\" : { \"text\" : \"", "\", \"value\"");
-            if (durationText == null) {
-                durationText = "N/A";
-                logger.warn("Missing 'Duration Text' field in data: {}", rawData);
+            String duration = extractValue(rawData, "\"duration\" : { \"text\" : \"", "\", \"value\"");
+            if (duration == null) {
+                duration = "N/A";
+                logger.warn("Missing 'duration' field in data: {}", rawData);
             }
 
-            String durationSeconds = extractValue(rawData, "\"value\" : ", " }");
-            if (durationSeconds == null) {
-                durationSeconds = "0";
-                logger.warn("Missing 'Duration Seconds' field in data: {}", rawData);
-            }
+            String routeKey = origin + " to " + destination;
+            String routeId = routeIds.computeIfAbsent(routeKey, k -> UUID.randomUUID().toString());
 
-            // Calculate ETA
-            int durationInSeconds = Integer.parseInt(durationSeconds);
-            int hours = durationInSeconds / 3600;
-            int minutes = (durationInSeconds % 3600) / 60;
-            String eta = String.format("%d:%02d", hours, minutes);
+            String timestamp = LocalDateTime.now().format(dateTimeFormatter);
 
-            // Get the current date and time
-            String dateTime = LocalDateTime.now().format(dateTimeFormatter);
-
-            // Format the output
-            return String.format("Route_ID: 01%nOrigin: %s%nDestination: %s%nDistance: %s%nETA: %s%nDateTime: %s",
-                    origin, destination, distance, eta, dateTime);
+            return String.format("Timestamp: %s, Route ID: %s, Origin: %s, Destination: %s, Distance: %s, Duration: %s",
+                    timestamp, routeId, origin, destination, distance, duration);
         } catch (Exception e) {
             logger.error("Error formatting data: {}", rawData, e);
             return null;
         }
     }
 
-
-    private static String extractValue(String data, String startToken, String endToken) {
-        int startIndex = data.indexOf(startToken);
+    private static String extractValue(String data, String startDelimiter, String endDelimiter) {
+        int startIndex = data.indexOf(startDelimiter);
         if (startIndex == -1) {
-            logger.warn("Start token '{}' not found in data: {}", startToken, data);
             return null;
         }
-        startIndex += startToken.length();
-
-        int endIndex = data.indexOf(endToken, startIndex);
+        startIndex += startDelimiter.length();
+        int endIndex = data.indexOf(endDelimiter, startIndex);
         if (endIndex == -1) {
-            logger.warn("End token '{}' not found in data: {}", endToken, data);
             return null;
         }
-
         return data.substring(startIndex, endIndex).trim();
     }
 
