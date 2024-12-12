@@ -13,7 +13,7 @@ public class Filter_Consumer {
     private static final String INPUT_TOPIC = "input-topic";
     private static final String OUTPUT_TOPIC = "output-topic";
     private static final String APPLICATION_ID = "filter-consumer-app";
-    private static final String BOOTSTRAP_SERVERS = "localhost:9092";
+    private static final String BOOTSTRAP_SERVERS = "localhost:29092";
 
     public static void main(String[] args) {
         logger.info("Starting the Kafka Streams application...");
@@ -75,17 +75,22 @@ public class Filter_Consumer {
         }
     }
 
-    private static String extractValue(String data, String startDelimiter, String endDelimiter) {
-        int startIndex = data.indexOf(startDelimiter);
-        if (startIndex == -1) {
+    private static String extractValue(String rawData, String startDelimiter, String endDelimiter) {
+        try {
+            int startIndex = rawData.indexOf(startDelimiter);
+            if (startIndex == -1) {
+                return null;
+            }
+            startIndex += startDelimiter.length();
+            int endIndex = rawData.indexOf(endDelimiter, startIndex);
+            if (endIndex == -1) {
+                return null;
+            }
+            return rawData.substring(startIndex, endIndex);
+        } catch (Exception e) {
+            logger.error("Error extracting value from data: {}", rawData, e);
             return null;
         }
-        startIndex += startDelimiter.length();
-        int endIndex = data.indexOf(endDelimiter, startIndex);
-        if (endIndex == -1) {
-            return null;
-        }
-        return data.substring(startIndex, endIndex).trim();
     }
 
     private static void startStream(KafkaStreams streams) {
