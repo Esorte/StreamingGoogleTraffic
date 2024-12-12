@@ -1,3 +1,5 @@
+package io.muzoo.mining.kafka;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,7 +20,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 
 public class Producer {
 
-    private static final String KAFKA_BROKER = "localhost:9092";
+    private static final String KAFKA_BROKER = "localhost:29092";
     private static final String TOPIC = "raw_traffic";
     private static final String API_KEY = getApiKey();
     private static final String URL = "https://maps.googleapis.com/maps/api/distancematrix/json";
