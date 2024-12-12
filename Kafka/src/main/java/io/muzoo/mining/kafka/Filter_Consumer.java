@@ -59,10 +59,10 @@ public class Filter_Consumer {
                 logger.warn("Missing 'Destination' field in data: {}", rawData);
             }
 
-            String distanceText = extractValue(rawData, "\"distance\" : { \"text\" : \"", "\", \"value\"");
+            String distanceText = extractJsonValue(rawData, "\"distance\" : { \"text\" : \"", "\", \"value\"");
             double distance = distanceText != null ? Double.parseDouble(distanceText.split(" ")[0]) : 0.0;
 
-            String durationText = extractValue(rawData, "\"duration\" : { \"text\" : \"", "\", \"value\"");
+            String durationText = extractJsonValue(rawData, "\"duration\" : { \"text\" : \"", "\", \"value\"");
             int duration = durationText != null ? Integer.parseInt(durationText.split(" ")[0]) : 0;
 
             String formattedData = String.format("{ \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
@@ -89,6 +89,24 @@ public class Filter_Consumer {
             return rawData.substring(startIndex, endIndex);
         } catch (Exception e) {
             logger.error("Error extracting value from data: {}", rawData, e);
+            return null;
+        }
+    }
+
+    private static String extractJsonValue(String rawData, String startDelimiter, String endDelimiter) {
+        try {
+            int startIndex = rawData.indexOf(startDelimiter);
+            if (startIndex == -1) {
+                return null;
+            }
+            startIndex += startDelimiter.length();
+            int endIndex = rawData.indexOf(endDelimiter, startIndex);
+            if (endIndex == -1) {
+                return null;
+            }
+            return rawData.substring(startIndex, endIndex);
+        } catch (Exception e) {
+            logger.error("Error extracting JSON value from data: {}", rawData, e);
             return null;
         }
     }
