@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -50,25 +52,31 @@ public class Producer {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(props);
         ObjectMapper objectMapper = new ObjectMapper();
+        Set<String> processedPairs = new HashSet<>();
 
         while (true) {
             for (Map.Entry<String, double[]> originEntry : locationMap.entrySet()) {
                 for (Map.Entry<String, double[]> destinationEntry : locationMap.entrySet()) {
                     if (!originEntry.getKey().equals(destinationEntry.getKey())) {
                         String originName = originEntry.getKey();
-                        double[] origin = originEntry.getValue();
                         String destinationName = destinationEntry.getKey();
-                        double[] destination = destinationEntry.getValue();
-                        String response = fetchGoogleMapsData(origin, destination);
-                        if (response != null) {
-                            try {
-                                Map<String, Object> responseMap = objectMapper.readValue(response, Map.class);
-                                String message = String.format("Origin: %s (%f, %f), Destination: %s (%f, %f), Data: %s",
-                                        originName, origin[0], origin[1], destinationName, destination[0], destination[1], response);
-                                producer.send(new ProducerRecord<>(TOPIC, message));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                        String pairKey = originName + "->" + destinationName;
+                        String reversePairKey = destinationName + "->" + originName;
+
+                        if (!processedPairs.contains(pairKey) && !processedPairs.contains(reversePairKey)) {
+                            processedPairs.add(pairKey);
+                            double[] origin = originEntry.getValue();
+                            double[] destination = destinationEntry.getValue();
+                            String response = fetchGoogleMapsData(origin, destination);
+                            if (response != null) {
+                                try {
+                                    Map<String, Object> responseMap = objectMapper.readValue(response, Map.class);
+                                    String message = String.format("Origin: %s (%f, %f), Destination: %s (%f, %f), Data: %s",
+                                            originName, origin[0], origin[1], destinationName, destination[0], destination[1], response);
+                                    producer.send(new ProducerRecord<>(TOPIC, message));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                         }
                     }
                 }
