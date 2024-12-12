@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bff4e60f-2fe2-4c53-af58-0dc1a152655e" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/Kafka/src/main/java/io/muzoo/mining/kafka/Consumer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Kafka/src/main/java/io/muzoo/mining/kafka/FormattedTrafficNoJSON.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Kafka/src/main/java/io/muzoo/mining/kafka/Filter_Consumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Kafka/data/auth.log.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Kafka/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Kafka/pom.xml" afterDir="false" />
@@ -57,6 +57,7 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Application.Consumer.executor": "Run",
     "Application.Consumer_filter.executor": "Run",
+    "Application.Filter_Consumer.executor": "Run",
     "Application.FormattedTrafficNoJSON.executor": "Run",
     "Application.Producer.executor": "Run",
     "Application.SimpleConsumer.executor": "Run",
@@ -91,7 +92,7 @@
       <recent name="$PROJECT_DIR$/kafka" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FormattedTrafficNoJSON">
+  <component name="RunManager" selected="Application.Consumer">
     <configuration name="Consumer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="io.muzoo.mining.kafka.Consumer" />
       <module name="kafka-log-analyzer" />
@@ -107,6 +108,19 @@
     </configuration>
     <configuration name="Consumer_filter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="io.muzoo.mining.kafka.Consumer_filter" />
+      <module name="kafka-log-analyzer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.muzoo.mining.kafka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Filter_Consumer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="io.muzoo.mining.kafka.Filter_Consumer" />
       <module name="kafka-log-analyzer" />
       <extension name="coverage">
         <pattern>
@@ -144,19 +158,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SimpleConsumer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="io.muzoo.mining.kafka.SimpleConsumer" />
-      <module name="kafka-log-analyzer" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="io.muzoo.mining.kafka.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
@@ -165,11 +166,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.FormattedTrafficNoJSON" />
         <item itemvalue="Application.Consumer" />
         <item itemvalue="Application.Producer" />
+        <item itemvalue="Application.Filter_Consumer" />
+        <item itemvalue="Application.FormattedTrafficNoJSON" />
         <item itemvalue="Application.Consumer_filter" />
-        <item itemvalue="Application.SimpleConsumer" />
       </list>
     </recent_temporary>
   </component>

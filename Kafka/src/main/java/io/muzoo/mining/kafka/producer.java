@@ -6,14 +6,12 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
+import java.net.URL;
 
 public class Producer {
 
@@ -78,7 +76,7 @@ public class Producer {
                 }
             }
             try {
-                Thread.sleep(60000); // Wait for 1 minute before next request
+                Thread.sleep(6000); // Wait for 1 minute before next request
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

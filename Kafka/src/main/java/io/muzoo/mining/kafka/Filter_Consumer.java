@@ -1,3 +1,5 @@
+package io.muzoo.mining.kafka;
+
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
@@ -5,14 +7,13 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import org.json.JSONObject;
 
 import java.util.Properties;
 
 public class Filter_Consumer {
     private static final Logger logger = LoggerFactory.getLogger(Filter_Consumer.class);
-    private static final String INPUT_TOPIC = "raw_trafic";
+    private static final String INPUT_TOPIC = "raw_traffic";
     private static final String OUTPUT_TOPIC = "output-topic";
     private static final String APPLICATION_ID = "filter-consumer-app";
     private static final String BOOTSTRAP_SERVERS = "localhost:29092";
@@ -61,20 +62,20 @@ public class Filter_Consumer {
                 logger.warn("Missing 'Destination' field in data: {}", rawData);
             }
 
-            JsonObject jsonData = JsonParser.parseString(rawData.substring(rawData.indexOf("Data: ") + 6)).getAsJsonObject();
-            double distance = jsonData.getAsJsonArray("rows")
-                                      .get(0).getAsJsonObject()
-                                      .getAsJsonArray("elements")
-                                      .get(0).getAsJsonObject()
-                                      .getAsJsonObject("distance")
-                                      .get("value").getAsDouble() / 1000.0; // Convert meters to kilometers
+            JSONObject jsonData = new JSONObject(rawData.substring(rawData.indexOf("Data: ") + 6));
+            double distance = jsonData.getJSONArray("rows")
+                                      .getJSONObject(0)
+                                      .getJSONArray("elements")
+                                      .getJSONObject(0)
+                                      .getJSONObject("distance")
+                                      .getDouble("value") / 1000.0; // Convert meters to kilometers
 
-            int duration = jsonData.getAsJsonArray("rows")
-                                   .get(0).getAsJsonObject()
-                                   .getAsJsonArray("elements")
-                                   .get(0).getAsJsonObject()
-                                   .getAsJsonObject("duration")
-                                   .get("value").getAsInt() / 60; // Convert seconds to minutes
+            int duration = jsonData.getJSONArray("rows")
+                                   .getJSONObject(0)
+                                   .getJSONArray("elements")
+                                   .getJSONObject(0)
+                                   .getJSONObject("duration")
+                                   .getInt("value") / 60; // Convert seconds to minutes
 
             String formattedData = String.format("{ \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
                     origin, destination, distance, duration);
