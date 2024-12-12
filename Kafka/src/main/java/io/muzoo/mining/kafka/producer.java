@@ -45,9 +45,9 @@ public class Producer {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(props);
         ObjectMapper objectMapper = new ObjectMapper();
-        Set<String> processedPairs = new HashSet<>();
 
         while (true) {
+            Set<String> processedPairs = new HashSet<>();
             for (Map.Entry<String, double[]> originEntry : locationMap.entrySet()) {
                 for (Map.Entry<String, double[]> destinationEntry : locationMap.entrySet()) {
                     if (!originEntry.getKey().equals(destinationEntry.getKey())) {
