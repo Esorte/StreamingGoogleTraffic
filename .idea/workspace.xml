@@ -7,15 +7,11 @@
     <list default="true" id="bff4e60f-2fe2-4c53-af58-0dc1a152655e" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/Kafka/src/main/java/io/muzoo/mining/kafka/Consumer.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Kafka/src/main/java/io/muzoo/mining/kafka/Filter_Consumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Kafka/data/auth.log.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Kafka/kafka-server/docker-compose.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Kafka/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Kafka/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Kafka/src/test/java/com/github/programmingwithmati/topology/BankBalanceTopologyTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/es-example/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/es-example/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/es/docker-compose.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/es/elaticsearch/elasticsearch.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/es/kibana/kibana.yml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +26,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/es-example" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -57,38 +53,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Application.Consumer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Consumer_filter.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Filter_Consumer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FormattedTrafficNoJSON.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Producer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.SimpleConsumer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.SimpleProducer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.io.muzoo.mining.kafka.SimpleProducer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.kafka.SimpleProducer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.producer.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.es: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.kafka-server: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.kafka-sever: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/krits/Documents/GitHub/StreamingGoogleTraffic&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Application.Consumer.executor": "Run",
+    "Application.Consumer_filter.executor": "Run",
+    "Application.Filter_Consumer.executor": "Run",
+    "Application.FormattedTrafficNoJSON.executor": "Run",
+    "Application.Producer.executor": "Run",
+    "Application.SimpleConsumer.executor": "Run",
+    "Application.SimpleProducer.executor": "Run",
+    "Application.io.muzoo.mining.kafka.SimpleProducer.executor": "Run",
+    "Application.kafka.SimpleProducer.executor": "Run",
+    "Application.producer.executor": "Run",
+    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
+    "Docker.es: Compose Deployment.executor": "Run",
+    "Docker.kafka-server: Compose Deployment.executor": "Run",
+    "Docker.kafka-sever: Compose Deployment.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/krits/Documents/GitHub/StreamingGoogleTraffic",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "org.rust.first.attach.projects": "true",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Kafka" />
@@ -98,20 +95,7 @@
       <recent name="$PROJECT_DIR$/kafka" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.es: Compose Deployment">
-    <configuration name="Consumer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="io.muzoo.mining.kafka.Consumer" />
-      <module name="kafka-log-analyzer" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="io.muzoo.mining.kafka.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Docker.docker-compose.yml: Compose Deployment">
     <configuration name="Filter_Consumer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="io.muzoo.mining.kafka.Filter_Consumer" />
       <module name="kafka-log-analyzer" />
@@ -144,6 +128,14 @@
       </deployment>
       <method v="2" />
     </configuration>
+    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <configuration name="es: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
@@ -162,11 +154,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="Docker.es: Compose Deployment" />
         <item itemvalue="Docker.kafka-server: Compose Deployment" />
         <item itemvalue="Application.Filter_Consumer" />
         <item itemvalue="Application.Producer" />
-        <item itemvalue="Application.Consumer" />
       </list>
     </recent_temporary>
   </component>
@@ -200,7 +192,7 @@
       <workItem from="1733849769219" duration="80000" />
       <workItem from="1733849864422" duration="1577000" />
       <workItem from="1733988773159" duration="7798000" />
-      <workItem from="1734007048529" duration="869000" />
+      <workItem from="1734007048529" duration="2153000" />
     </task>
     <servers />
   </component>
