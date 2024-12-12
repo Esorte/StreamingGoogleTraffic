@@ -17,6 +17,8 @@ public class Filter_Consumer {
     private static final String OUTPUT_TOPIC = "output-topic";
     private static final String APPLICATION_ID = "filter-consumer-app";
     private static final String BOOTSTRAP_SERVERS = "localhost:29092";
+    private static final Map<String, Integer> routeIdMap = new HashMap<>();
+    private static final AtomicInteger nextId = new AtomicInteger(1);
 
     public static void main(String[] args) {
         logger.info("Starting the Kafka Streams application...");
@@ -76,11 +78,11 @@ public class Filter_Consumer {
                                    .getInt("value") / 60; // Convert seconds to minutes
 
             String routeKey = origin + "->" + destination;
-            String routeId = routeIdMap.computeIfAbsent(routeKey, k -> UUID.randomUUID().toString());
+            int routeId = routeIdMap.computeIfAbsent(routeKey, k -> nextId.getAndIncrement());
 
             String datetime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
 
-            String formattedData = String.format("{ \"id\": \"%s\", \"datetime\": \"%s\", \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
+            String formattedData = String.format("{ \"id\": \"%d\", \"datetime\": \"%s\", \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
                     routeId, datetime, origin, destination, distance, duration);
             logger.info("Formatted data: {}", formattedData);
             return formattedData;
