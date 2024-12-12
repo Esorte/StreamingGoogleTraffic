@@ -5,12 +5,13 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.json.JSONObject;
 
 import java.util.Properties;
 
 public class Filter_Consumer {
     private static final Logger logger = LoggerFactory.getLogger(Filter_Consumer.class);
-    private static final String INPUT_TOPIC = "input-topic";
+    private static final String INPUT_TOPIC = "raw_trafic";
     private static final String OUTPUT_TOPIC = "output-topic";
     private static final String APPLICATION_ID = "filter-consumer-app";
     private static final String BOOTSTRAP_SERVERS = "localhost:29092";
@@ -59,11 +60,20 @@ public class Filter_Consumer {
                 logger.warn("Missing 'Destination' field in data: {}", rawData);
             }
 
-            String distanceText = extractJsonValue(rawData, "\"distance\" : { \"text\" : \"", "\", \"value\"");
-            double distance = distanceText != null ? Double.parseDouble(distanceText.split(" ")[0]) : 0.0;
+            JSONObject jsonData = new JSONObject(rawData.substring(rawData.indexOf("Data: ") + 6));
+            double distance = jsonData.getJSONArray("rows")
+                                      .getJSONObject(0)
+                                      .getJSONArray("elements")
+                                      .getJSONObject(0)
+                                      .getJSONObject("distance")
+                                      .getDouble("value") / 1000.0; // Convert meters to kilometers
 
-            String durationText = extractJsonValue(rawData, "\"duration\" : { \"text\" : \"", "\", \"value\"");
-            int duration = durationText != null ? Integer.parseInt(durationText.split(" ")[0]) : 0;
+            int duration = jsonData.getJSONArray("rows")
+                                   .getJSONObject(0)
+                                   .getJSONArray("elements")
+                                   .getJSONObject(0)
+                                   .getJSONObject("duration")
+                                   .getInt("value") / 60; // Convert seconds to minutes
 
             String formattedData = String.format("{ \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
                     origin, destination, distance, duration);
@@ -89,24 +99,6 @@ public class Filter_Consumer {
             return rawData.substring(startIndex, endIndex);
         } catch (Exception e) {
             logger.error("Error extracting value from data: {}", rawData, e);
-            return null;
-        }
-    }
-
-    private static String extractJsonValue(String rawData, String startDelimiter, String endDelimiter) {
-        try {
-            int startIndex = rawData.indexOf(startDelimiter);
-            if (startIndex == -1) {
-                return null;
-            }
-            startIndex += startDelimiter.length();
-            int endIndex = rawData.indexOf(endDelimiter, startIndex);
-            if (endIndex == -1) {
-                return null;
-            }
-            return rawData.substring(startIndex, endIndex);
-        } catch (Exception e) {
-            logger.error("Error extracting JSON value from data: {}", rawData, e);
             return null;
         }
     }
