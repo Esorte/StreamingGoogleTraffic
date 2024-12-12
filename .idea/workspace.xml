@@ -7,13 +7,19 @@
     <list default="true" id="bff4e60f-2fe2-4c53-af58-0dc1a152655e" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/Kafka/src/main/java/io/muzoo/mining/kafka/Consumer.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Kafka/src/main/java/io/muzoo/mining/kafka/Filter_Consumer.java" afterDir="false" />
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/es/docker-compoes.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
+>>>>>>> parent of 94d5b4c (es)
       <change beforePath="$PROJECT_DIR$/Kafka/data/auth.log.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Kafka/kafka-server/docker-compose.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Kafka/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Kafka/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Kafka/src/test/java/com/github/programmingwithmati/topology/BankBalanceTopologyTest.java" beforeDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+=======
+>>>>>>> parent of 94d5b4c (es)
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +34,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+<<<<<<< HEAD
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Kafka" />
+=======
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+>>>>>>> parent of 94d5b4c (es)
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -68,7 +78,10 @@
     "Application.io.muzoo.mining.kafka.SimpleProducer.executor": "Run",
     "Application.kafka.SimpleProducer.executor": "Run",
     "Application.producer.executor": "Run",
+<<<<<<< HEAD
     "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
+=======
+>>>>>>> parent of 94d5b4c (es)
     "Docker.es: Compose Deployment.executor": "Run",
     "Docker.kafka-server: Compose Deployment.executor": "Run",
     "Docker.kafka-sever: Compose Deployment.executor": "Run",
@@ -161,11 +174,19 @@
     </configuration>
     <recent_temporary>
       <list>
+<<<<<<< HEAD
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+=======
+        <item itemvalue="Docker.es: Compose Deployment" />
+>>>>>>> parent of 94d5b4c (es)
         <item itemvalue="Application.Filter_Consumer" />
         <item itemvalue="Application.Consumer" />
+<<<<<<< HEAD
         <item itemvalue="Application.Producer" />
         <item itemvalue="Docker.es: Compose Deployment" />
+=======
+        <item itemvalue="Docker.kafka-server: Compose Deployment" />
+>>>>>>> parent of 94d5b4c (es)
       </list>
     </recent_temporary>
   </component>
@@ -199,7 +220,10 @@
       <workItem from="1733849769219" duration="80000" />
       <workItem from="1733849864422" duration="1577000" />
       <workItem from="1733988773159" duration="7798000" />
+<<<<<<< HEAD
       <workItem from="1734007048529" duration="3714000" />
+=======
+>>>>>>> parent of 94d5b4c (es)
     </task>
     <servers />
   </component>
