@@ -1,3 +1,5 @@
+package io.muzoo.mining.kafka;
+
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -10,9 +12,9 @@ import java.util.Properties;
 
 public class Consumer {
 
-    private static final String KAFKA_BROKER = "localhost:9092";
+    private static final String KAFKA_BROKER = "localhost:29092";
     private static final String TOPIC = "raw_traffic";
-    private static final String GROUP_ID = "simple_consumer_group";
+    private static final String GROUP_ID = "raw-traffic-group";
 
     public static void main(String[] args) {
         Properties props = new Properties();
