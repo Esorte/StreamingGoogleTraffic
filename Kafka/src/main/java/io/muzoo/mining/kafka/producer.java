@@ -76,7 +76,7 @@ public class Producer {
                 }
             }
             try {
-                Thread.sleep(6000); // Wait for 1 minute before next request
+                Thread.sleep(60000); // Wait for 1 minute before next request
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -48,8 +48,6 @@ public class Filter_Consumer {
 
     private static String formatData(String rawData) {
         try {
-            logger.info("Formatting data: {}", rawData);
-
             String origin = extractValue(rawData, "Origin: ", ", Destination:");
             if (origin == null) {
                 origin = "Unknown";
