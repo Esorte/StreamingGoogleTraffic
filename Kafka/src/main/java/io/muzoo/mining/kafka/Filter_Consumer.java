@@ -47,7 +47,7 @@ public class Filter_Consumer {
 
     private static String formatData(String rawData) {
         try {
-            // Extract key-value pairs manually
+            // Extract required values
             String origin = extractValue(rawData, "Origin: ", ", Destination:");
             if (origin == null) {
                 origin = "Unknown";
@@ -60,25 +60,14 @@ public class Filter_Consumer {
                 logger.warn("Missing 'Destination' field in data: {}", rawData);
             }
 
-            String distance = extractValue(rawData, "\"distance\" : { \"text\" : \"", "\", \"value\"");
-            if (distance == null) {
-                distance = "N/A";
-                logger.warn("Missing 'distance' field in data: {}", rawData);
-            }
+            String distanceText = extractValue(rawData, "\"distance\" : { \"text\" : \"", "\", \"value\"");
+            double distance = distanceText != null ? Double.parseDouble(distanceText.split(" ")[0]) : 0.0;
 
-            String duration = extractValue(rawData, "\"duration\" : { \"text\" : \"", "\", \"value\"");
-            if (duration == null) {
-                duration = "N/A";
-                logger.warn("Missing 'duration' field in data: {}", rawData);
-            }
+            String durationText = extractValue(rawData, "\"duration\" : { \"text\" : \"", "\", \"value\"");
+            int duration = durationText != null ? Integer.parseInt(durationText.split(" ")[0]) : 0;
 
-            String routeKey = origin + " to " + destination;
-            String routeId = routeIds.computeIfAbsent(routeKey, k -> UUID.randomUUID().toString());
-
-            String timestamp = LocalDateTime.now().format(dateTimeFormatter);
-
-            return String.format("Timestamp: %s, Route ID: %s, Origin: %s, Destination: %s, Distance: %s, Duration: %s",
-                    timestamp, routeId, origin, destination, distance, duration);
+            return String.format("{ \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
+                    origin, destination, distance, duration);
         } catch (Exception e) {
             logger.error("Error formatting data: {}", rawData, e);
             return null;
