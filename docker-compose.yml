@@ -24,7 +24,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
@@ -33,8 +33,7 @@ services:
       - network.host=0.0.0.0
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
-      - ./es/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - es_data:/usr/share/elasticsearch/data
+      - esdata:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
     ulimits:
@@ -43,7 +42,7 @@ services:
         hard: -1
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.16.1
+    image: docker.elastic.co/kibana/kibana:7.10.2
     container_name: kibana
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
@@ -54,31 +53,31 @@ services:
     depends_on:
       - elasticsearch
 
-  kafka-connect:
-    image: confluentinc/cp-kafka-connect:latest
-    ports:
-      - 8083:8083
-    environment:
-      CONNECT_BOOTSTRAP_SERVERS: kafka:9092
-      CONNECT_REST_PORT: 8083
-      CONNECT_GROUP_ID: "quickstart-avro"
-      CONNECT_CONFIG_STORAGE_TOPIC: "docker-connect-configs"
-      CONNECT_OFFSET_STORAGE_TOPIC: "docker-connect-offsets"
-      CONNECT_STATUS_STORAGE_TOPIC: "docker-connect-status"
-      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
-      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
-      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connect"
-      CONNECT_PLUGIN_PATH: "/usr/share/java,/etc/kafka-connect/jars"
-    volumes:
-      - ./kafka-connect/jars:/etc/kafka-connect/jars
-    depends_on:
-      - kafka
-      - elasticsearch
+  # kafka-connect:
+  #   image: confluentinc/cp-kafka-connect:latest
+  #   ports:
+  #     - 8083:8083
+  #   environment:
+  #     CONNECT_BOOTSTRAP_SERVERS: kafka:9092
+  #     CONNECT_REST_PORT: 8083
+  #     CONNECT_GROUP_ID: "quickstart-avro"
+  #     CONNECT_CONFIG_STORAGE_TOPIC: "docker-connect-configs"
+  #     CONNECT_OFFSET_STORAGE_TOPIC: "docker-connect-offsets"
+  #     CONNECT_STATUS_STORAGE_TOPIC: "docker-connect-status"
+  #     CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
+  #     CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
+  #     CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+  #     CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+  #     CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connect"
+  #     CONNECT_PLUGIN_PATH: "/usr/share/java,/etc/kafka-connect/jars"
+  #   volumes:
+  #     - ./kafka-connect/jars:/etc/kafka-connect/jars
+  #   depends_on:
+  #     - kafka
+  #     - elasticsearch
       
 volumes:
-  es_data:
+  esdata:
     driver: local
 
 networks:

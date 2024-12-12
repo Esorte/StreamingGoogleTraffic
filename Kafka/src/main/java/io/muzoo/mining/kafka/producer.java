@@ -1,17 +1,24 @@
 package io.muzoo.mining.kafka;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-import java.net.URL;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Producer {
 
@@ -69,8 +76,8 @@ public class Producer {
                             if (response != null) {
                                 try {
                                     Map<String, Object> responseMap = objectMapper.readValue(response, Map.class);
-                                    String message = String.format("Origin: %s (%f, %f), Destination: %s (%f, %f), Data: %s",
-                                            originName, origin[0], origin[1], destinationName, destination[0], destination[1], response);
+                                    String message = String.format("Origin: %s, Destination: %s, Data: %s",
+                                            originName, destinationName, response);
                                     producer.send(new ProducerRecord<>(TOPIC, message));
                                 } catch (IOException e) {
                                     e.printStackTrace();
@@ -81,7 +88,7 @@ public class Producer {
                 }
             }
             try {
-                Thread.sleep(600); // Wait for 1 minute before next request
+                Thread.sleep(60000); // Wait for 1 minute before next request
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
