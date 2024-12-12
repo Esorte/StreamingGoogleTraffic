@@ -3,18 +3,25 @@ package io.muzoo.mining.kafka;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KStreamBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.common.serialization.Serdes;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.json.JSONObject;
-import java.time.LocalDateTime;
-import java.time.format.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.time.LocalDateTime;
+import java.time.format.*;
 
 public class Filter_Consumer {
     private static final Logger logger = LoggerFactory.getLogger(Filter_Consumer.class);
@@ -25,8 +32,12 @@ public class Filter_Consumer {
     private static final Map<String, Integer> routeIdMap = new HashMap<>();
     private static final AtomicInteger nextId = new AtomicInteger(1);
 
+    private static RestHighLevelClient esClient;
+
     public static void main(String[] args) {
         logger.info("Starting the Kafka Streams application...");
+
+        esClient = createElasticsearchClient();
 
         Properties props = createStreamProperties();
         StreamsBuilder builder = new StreamsBuilder();
@@ -37,8 +48,10 @@ public class Filter_Consumer {
         KStream<String, String> formattedStream = sourceStream.mapValues(Filter_Consumer::formatData);
         logger.info("Formatted stream created.");
 
-        formattedStream.filter((key, value) -> value != null).to(OUTPUT_TOPIC);
-        logger.info("Filtered stream sent to topic: {}", OUTPUT_TOPIC);
+        formattedStream.filter((key, value) -> value != null).foreach((key, value) -> {
+            indexToElasticsearch(key, value);
+        });
+        logger.info("Filtered stream sent to Elasticsearch.");
 
         KafkaStreams streams = new KafkaStreams(builder.build(), props);
         startStream(streams);
@@ -88,37 +101,44 @@ public class Filter_Consumer {
             String datetime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
 );
 
-            String formattedData = String.format("{ \"id\": \"%d\", \"datetime\": \"%s\", \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
+            return String.format("{ \"id\": \"%d\", \"datetime\": \"%s\", \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
                     routeId, datetime, origin, destination, distance, duration);
-            logger.info("Formatted data: {}", formattedData);
-            return formattedData;
         } catch (Exception e) {
             logger.error("Error formatting data: {}", rawData, e);
             return null;
         }
     }
 
-    private static String extractValue(String rawData, String startDelimiter, String endDelimiter) {
-        try {
-            int startIndex = rawData.indexOf(startDelimiter);
-            if (startIndex == -1) {
-                return null;
-            }
-            startIndex += startDelimiter.length();
-            int endIndex = rawData.indexOf(endDelimiter, startIndex);
-            if (endIndex == -1) {
-                return null;
-            }
-            return rawData.substring(startIndex, endIndex);
-        } catch (Exception e) {
-            logger.error("Error extracting value from data: {}", rawData, e);
+    private static String extractValue(String data, String startDelimiter, String endDelimiter) {
+        int startIndex = data.indexOf(startDelimiter);
+        if (startIndex == -1) {
             return null;
+        }
+        startIndex += startDelimiter.length();
+        int endIndex = data.indexOf(endDelimiter, startIndex);
+        if (endIndex == -1) {
+            return null;
+        }
+        return data.substring(startIndex, endIndex).trim();
+    }
+
+    private static RestHighLevelClient createElasticsearchClient() {
+        RestClientBuilder builder = RestClient.builder(new HttpHost("localhost", 9200, "http"));
+        return new RestHighLevelClient(builder);
+    }
+
+    private static void indexToElasticsearch(String key, String value) {
+        IndexRequest request = new IndexRequest("kafka-data").source(value, XContentType.JSON);
+        try {
+            esClient.index(request, RequestOptions.DEFAULT);
+            logger.info("Indexed data to Elasticsearch: {}", value);
+        } catch (IOException e) {
+            logger.error("Failed to index data to Elasticsearch: {}", value, e);
         }
     }
 
     private static void startStream(KafkaStreams streams) {
         streams.start();
-        logger.info("Kafka Streams started.");
         Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
     }
 }
