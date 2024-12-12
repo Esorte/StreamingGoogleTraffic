@@ -75,8 +75,13 @@ public class Filter_Consumer {
                                    .getJSONObject("duration")
                                    .getInt("value") / 60; // Convert seconds to minutes
 
-            String formattedData = String.format("{ \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
-                    origin, destination, distance, duration);
+            String routeKey = origin + "->" + destination;
+            String routeId = routeIdMap.computeIfAbsent(routeKey, k -> UUID.randomUUID().toString());
+
+            String datetime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
+
+            String formattedData = String.format("{ \"id\": \"%s\", \"datetime\": \"%s\", \"origin\": \"%s\", \"destination\": \"%s\", \"distance\": %.1f, \"duration\": %d }",
+                    routeId, datetime, origin, destination, distance, duration);
             logger.info("Formatted data: {}", formattedData);
             return formattedData;
         } catch (Exception e) {
