@@ -1,5 +1,3 @@
-package io.muzoo.mining.kafka;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,7 +18,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 
 public class Producer {
 
-    private static final String KAFKA_BROKER = "localhost:29092";
+    private static final String KAFKA_BROKER = "localhost:9092";
     private static final String TOPIC = "raw_traffic";
     private static final String API_KEY = getApiKey();
     private static final String URL = "https://maps.googleapis.com/maps/api/distancematrix/json";
@@ -33,10 +31,12 @@ public class Producer {
         }
     }
 
-    private static Map<double[], double[]> locationMap = new HashMap<>();
+    private static Map<String, double[]> locationMap = new HashMap<>();
     static {
-        locationMap.put(new double[]{13.792932197901337, 100.32602729651516}, new double[]{13.74591036679997, 100.5344231541853});  // MUIC -> Siam Paragon
-        locationMap.put(new double[]{13.76522600064536, 100.53818429867663}, new double[]{13.68394085330947, 100.74737181171255});  // Victory Monument -> Suvarnabhumi Airport
+        locationMap.put("MUIC", new double[]{13.792932197901337, 100.32602729651516});
+        locationMap.put("Siam Paragon", new double[]{13.74591036679997, 100.5344231541853});
+        locationMap.put("Victory Monument", new double[]{13.76522600064536, 100.53818429867663});
+        locationMap.put("Suvarnabhumi Airport", new double[]{13.68394085330947, 100.74737181171255});
         // Add more
     }
 
@@ -50,17 +50,24 @@ public class Producer {
         ObjectMapper objectMapper = new ObjectMapper();
 
         while (true) {
-            for (Map.Entry<double[], double[]> entry : locationMap.entrySet()) {
-                double[] origin = entry.getKey();
-                double[] destination = entry.getValue();
-                String response = fetchGoogleMapsData(origin, destination);
-                if (response != null) {
-                    try {
-                        Map<String, Object> responseMap = objectMapper.readValue(response, Map.class);
-                        processRoutes(responseMap);
-                        producer.send(new ProducerRecord<>(TOPIC, response));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            for (Map.Entry<String, double[]> originEntry : locationMap.entrySet()) {
+                for (Map.Entry<String, double[]> destinationEntry : locationMap.entrySet()) {
+                    if (!originEntry.getKey().equals(destinationEntry.getKey())) {
+                        String originName = originEntry.getKey();
+                        double[] origin = originEntry.getValue();
+                        String destinationName = destinationEntry.getKey();
+                        double[] destination = destinationEntry.getValue();
+                        String response = fetchGoogleMapsData(origin, destination);
+                        if (response != null) {
+                            try {
+                                Map<String, Object> responseMap = objectMapper.readValue(response, Map.class);
+                                String message = String.format("Origin: %s (%f, %f), Destination: %s (%f, %f), Data: %s",
+                                        originName, origin[0], origin[1], destinationName, destination[0], destination[1], response);
+                                producer.send(new ProducerRecord<>(TOPIC, message));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
             }
@@ -108,18 +115,6 @@ public class Producer {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-    public static void processRoutes(Map<String, Object> responseMap) {
-        Object routesObj = responseMap.get("rows");
-        if (routesObj instanceof List) {
-            List<Map<String, Object>> routes = (List<Map<String, Object>>) routesObj;
-            for (Map<String, Object> route : routes) {
-                // Process each route
-            }
-        } else {
-            System.err.println("Error: 'rows' is not a List");
         }
     }
 }
